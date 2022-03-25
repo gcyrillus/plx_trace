@@ -20,7 +20,10 @@
 		$this->setConfigProfil(PROFIL_ADMIN);	
 		
 		# limite l'accès à l'écran d'administration du plugin
-        $this->setAdminProfil(PROFIL_ADMIN);	
+                $this->setAdminProfil(PROFIL_ADMIN);	
+	    
+		#Intitulé lien dans le menu admin
+		$this->setAdminMenu( ' TRACE GPX'  , 20,  ' GESTION TRACE GPX');
 
 		
 		$this->jsTpl = '<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
