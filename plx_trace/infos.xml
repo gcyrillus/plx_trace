@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+    <title><![CDATA[plx_trace]]></title>
+    <author><![CDATA[GC-nomade]]></author>
+    <version>Bêta 1.0</version>
+    <date>25/03/2022</date>
+    <site>http://re7net.com</site>
+    <description><![CDATA[Petit plugin d'assemblage permettant d'afficher une carte openstreetmap lié a un fichier gpx.
+    | Options
+     - upload de fichier gpx
+     - creations de repertoire de stockage des gpx pour mieux les triées
+     
+     Code inspiré du plugin pour PluXml https://github.com/gcyrillus/plx-hookMyTheme  et du plugin pour leaflet https://github.com/mpetazzoni/leaflet-gpx]]></description>
+    <scope>site</scope>
+</document>
