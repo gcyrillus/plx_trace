@@ -123,11 +123,6 @@ legend {
   font-weight:bold;
   text-indent:15vw;
 }
-.gpx {
-	max-width:80%;
-}
-.gpx .map {
-width:auto;}
 </style>
 <form action="parametres_plugin.php?p=<?php echo $plugin ?>" method="post" class="HookMyTheme">
  <fieldset>
