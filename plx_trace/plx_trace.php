@@ -20,10 +20,10 @@
 		$this->setConfigProfil(PROFIL_ADMIN);	
 		
 		# limite l'accès à l'écran d'administration du plugin
-                $this->setAdminProfil(PROFIL_ADMIN);	
-	    
+        $this->setAdminProfil(PROFIL_ADMIN);	
+
 		#Intitulé lien dans le menu admin
-		$this->setAdminMenu( ' TRACE GPX'  , 20,  ' GESTION TRACE GPX');
+		$this->setAdminMenu( ' TRACE GPX'  , 20,  ' GESTION TRACE GPX');	
 
 		
 		$this->jsTpl = '<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
@@ -33,7 +33,6 @@
 <!--
   Copyright (C) 2011-2012 Pavel Shramov
   Copyright (C) 2013 Maxime Petazzoni <maxime.petazzoni@bulix.org>
-  Copyright (C) 2022 Griboval Cyrille https://github.com/gcyrillus/plx_trace/ (minor modifications to turn it into a PluXml Plugin)
   All Rights Reserved.
 
   Redistribution and use in source and binary forms, with or without

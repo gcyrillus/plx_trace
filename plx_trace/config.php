@@ -3,18 +3,40 @@
 	plxToken::validateFormToken($_POST);
 # Controle de l'accès à la page en fonction du profil de l'utilisateur connecté
 $plxAdmin->checkProfil(PROFIL_ADMIN);
-	
+	if(isset($_GET['del']) && $_GET['del'] !='') {	
+		deleteDir(PLX_PLUGINS.'plx_trace/gpx/'.trim($_GET['del']));		
+	header('Location: parametres_plugin.php?p='.$plugin);
+	exit;
+	}		
     if(!empty($_POST)) {
 		if (!file_exists(PLX_PLUGINS.'plx_trace/gpx/'.trim($_POST['newDir']))) {
 		mkdir(PLX_PLUGINS.'plx_trace/gpx/'.trim($_POST['newDir']), 0777);
-	}
-
-
+		}
+		$plxPlugin->saveParams();// valide la configuration du plugin
 		header('Location: parametres_plugin.php?p='.$plugin);
 	exit;
     }
-		
-
+// efface un sous repertoire de gpx
+function deleteDir($deldir) {
+	if (file_exists($deldir)) {
+		$dir = opendir($deldir);
+		while (false !== ($file = readdir($dir))) {
+			if (($file != '.') && ($file != '..')) {
+				$full = $deldir . '/' . $file;
+				if (is_dir($full)) {
+					deleteDir($full);
+				} else {
+					unlink($full);
+				}
+			}
+		}
+		@closedir($deldir);
+		if(rmdir($deldir)) {
+			return plxMsg::Info(L_DELETE_SUCCESSFUL);
+		}
+	}
+}			
+// on liste les fichiers par repertoire et on affiche leur zone de televersement et la listes des traces disponibles.
 function getGpxDir() {
 	$gpxDir = glob(PLX_PLUGINS.'plx_trace/gpx/*');
 	$i='0';
@@ -23,17 +45,17 @@ function getGpxDir() {
 			$dir=basename($item);
 			$i++;
 			echo'
-				<h3 class="fullWidth">Repertoire: <b>'.$dir.'</b></h3>
+				<h3 class="fullWidth flex">Repertoire: <b>'.$dir.'</b> <a href="parametres_plugin.php?p=plx_trace&del='.$dir.'" style="margin-inline-start:auto;" onclick="return confirm(\'Cliquez OK pour effacer definitivement ce repertoire\');"> effacer ce repertoire entierement</a></h3>
 				<div id="sect'.$i.'">
 				<div class="drag_upload_file" ondrop="upload_file(event,\'file'.$i.'\',\'sect'.$i.'\',\''.$dir.'\')" ondragover="return false">
 				<input type="hidden" value="'.basename($dir).'" name="dirfile'.$i.'"/>
 				  <p>Deposer votre fichier  <i>gpx</i> ici ou  <input type="file" id="file'.$i.'" name="file'.$i.'[]"   multiple />
-				  <input type="button" value="Select File" onclick="file_explorer(`\'file'.$i.'\',\'sect1'.$i.'\',\''.$dir.'\');" />
+				  <input type="button" value="Select File" onclick="file_explorer(\'file'.$i.'\',\'sect'.$i.'\',\''.$dir.'\');" />
 				  <br><label for="file'.$i.'"> cliquez ici.</label></p>
 				</div>
 			</div>'.PHP_EOL .
 			'<div class="results">
-				<select name="selectFile'.$i.'" data-code="code'.$i.'">
+				<select name="selectfile'.$i.'" data-code="code'.$i.'">
 					<option value="">Choississez un fichier de parcours</option>'.PHP_EOL;
 			getGpxFile($dir);
 			echo'</select>
@@ -123,18 +145,23 @@ legend {
   font-weight:bold;
   text-indent:15vw;
 }
+.flex {
+  display:flex;
+  flex-wrap:wrap;
+}
 </style>
 <form action="parametres_plugin.php?p=<?php echo $plugin ?>" method="post" class="HookMyTheme">
  <fieldset>
  <legend>gestion des traces</legend>
- 
- <div id="drop_file_area" ondrop="upload_file(event)" ondragover="return false">
+
+ <div id="drop_file_area" >
+    <p class="fullWidth flex" style="gap:1em;"><label for="newDir"> Créer un nouveau repertoire</label><input name="newDir"/><?php 	echo plxToken::getTokenPostMethod();?>
+<input type="submit" name="submit" value="Enregistrer"  style="margin-inline-start:auto;"/></p>
 <?php getGpxDir(); ?>
 </div>
 
   <script src="<?php echo PLX_PLUGINS.$plugin.'/script.js'; ?>"></script>
-  <p><label for="newDir"> Créer un nouveau repertoire</label><input name="newDir"></p>
+
 </fieldset>
-<?php 	echo plxToken::getTokenPostMethod();?>
-<input type="submit" name="submit" value="Enregistrer" />
+
 </form>

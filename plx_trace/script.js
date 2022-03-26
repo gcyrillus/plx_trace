@@ -9,16 +9,16 @@ function upload_file(e,ipt,section,dir) {
 }
   
 function file_explorer(ipt,section,dir) {
-    document.getElementById('fontfile').click();
-    document.getElementById('fontfile').onchange = function() {
-        fileobj = document.getElementById('fontfile').files[0];
+    document.getElementById(ipt).click();
+    document.getElementById(ipt).onchange = function() {
+        fileobj = document.getElementById(ipt).files[0];
         ajax_file_upload(fileobj,ipt,section,dir);
     };
 }
   
 function ajax_file_upload(file_obj,ipt,section,dir) {
     let container= document.getElementById(section);
-
+    
     index++;
     let name= 'infos'+index;
     let classInfo='.'+name;
@@ -34,7 +34,23 @@ function ajax_file_upload(file_obj,ipt,section,dir) {
         xhttp.onload = function(event) {
             output = document.querySelector(classInfo);
             if (xhttp.status == 200) {
-                output.innerHTML =  '<p>File : '+this.responseText + '   <b class="green">&check;</b></p>';
+                let msg='';
+                if(this.responseText.trim() !='Fichier avec l\'extension gpx requis') { 
+                ipt.trim();
+                 msg='<b class="green">&check;</b> <em style="color:tomato">Le code pour ce fichier est dans la liste.</em>';
+                let selectToUpdate='[name=select'+ipt+']';
+                let selgpx=document.querySelector(selectToUpdate); 
+                let newOpt = document.createElement('option');
+                newOpt.textContent =`${this.responseText}`;
+                let newAttr = `plugins/plx_trace/gpx/${dir.trim()}/${this.responseText.trim()}`;
+                newOpt.setAttribute('value',newAttr);
+                selgpx.appendChild(newOpt);  
+            }  else { 
+                 msg='<b  style="color:tomato;background:lightred;" class="green">X</b>';                
+            }                
+                newinfos=`    <p > ${this.responseText}   ${msg}</p> `;
+                 
+                output.innerHTML =  newinfos;
             } else {
                 output.innerHTML = "Error " + xhttp.status + " occurred when trying to upload your file.";
             }
