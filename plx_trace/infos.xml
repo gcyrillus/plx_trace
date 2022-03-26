@@ -12,5 +12,5 @@
      - possibilité d'effacer un repertoire et tout son contenu en 2 clicks.
      
      Code inspiré du plugin pour PluXml https://github.com/gcyrillus/plx-hookMyTheme  et du plugin pour leaflet https://github.com/mpetazzoni/leaflet-gpx]]></description>
-    <scope>site</scope>
+    <scope>admin</scope>
 </document>
