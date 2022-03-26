@@ -66,27 +66,23 @@ function getGpxDir() {
 	}
 }
 function getGpxFile($dir) {
-	$gpxFile= glob(PLX_PLUGINS.'plx_trace/gpx/'.$dir.'/*'); 
+	$gpxFile= glob(PLX_PLUGINS.'plx_trace/gpx/'.$dir.'/*.gpx'); 
 		foreach($gpxFile as $file) {
 			echo '<option value="'.$file.'">'.basename($file).'</option>';
-		}
-	
+		}	
 }
-
 ?>
-
-
 <style>
 #drop_file_area {
-	border-bottom:solid;
-	padding-bottom:1em;
-	margin-bottom:1em;
+  border-bottom:solid;
+  padding-bottom:1em;
+  margin-bottom:1em;
 }
 #drop_file_area .drag_upload_file{
-    background-color: #EEE;
-    border: #999 3px dashed;
-    padding: 0.5em; 
-    margin:1em;
+  background-color: #EEE;
+  border: #999 3px dashed;
+  padding: 0.5em; 
+  margin:1em;
   height:10em;
 }
 .results {
@@ -121,23 +117,21 @@ b.green {
 #drop_file_area [type="file"] {
   display:none;
 }
-
 #drop_file_area {
   display: grid;
   grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
-max-width:clamp(300px, 100%,880px);
+  max-width:clamp(300px, 100%,880px);
   margin:auto;
 }
 .fullWidth {
-	min-width:80%;
-	grid-column:1/-1;
+  min-width:80%;
+  grid-column:1/-1;
 }
 h3.fullWidth {
-	border-top:solid;
-	padding-top:1em;
-	margin-top:1em;
+  border-top:solid;
+  padding-top:1em;
+  margin-top:1em;
 }
-
 legend {
   font-size:1.5em;
   text-transform:uppercase;
@@ -152,16 +146,12 @@ legend {
 </style>
 <form action="parametres_plugin.php?p=<?php echo $plugin ?>" method="post" class="HookMyTheme">
  <fieldset>
- <legend>gestion des traces</legend>
-
- <div id="drop_file_area" >
+   <legend>gestion des traces</legend>
+   <div id="drop_file_area" >
     <p class="fullWidth flex" style="gap:1em;"><label for="newDir"> Créer un nouveau repertoire</label><input name="newDir"/><?php 	echo plxToken::getTokenPostMethod();?>
-<input type="submit" name="submit" value="Enregistrer"  style="margin-inline-start:auto;"/></p>
-<?php getGpxDir(); ?>
-</div>
-
+    <input type="submit" name="submit" value="Enregistrer"  style="margin-inline-start:auto;"/></p>
+  <?php getGpxDir(); ?>
+  </div>
   <script src="<?php echo PLX_PLUGINS.$plugin.'/script.js'; ?>"></script>
-
 </fieldset>
-
 </form>
