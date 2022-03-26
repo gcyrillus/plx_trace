@@ -28,7 +28,7 @@
 		
 		$this->jsTpl = '<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.1/gpx.js"></script>
-<script src='.PLX_PLUGINS.__CLASS__.'/jsTpl.js></script>
+<script src="//'.$_SERVER['HTTP_HOST'].'/plugins/'.__CLASS__.'/jsTpl.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
 <!--
   Copyright (C) 2011-2012 Pavel Shramov
