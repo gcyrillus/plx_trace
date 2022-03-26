@@ -33,6 +33,7 @@
 <!--
   Copyright (C) 2011-2012 Pavel Shramov
   Copyright (C) 2013 Maxime Petazzoni <maxime.petazzoni@bulix.org>
+  Copyright (C) 2022 Griboval Cyrille https://github.com/gcyrillus/plx_trace/ (minor modifications to turn it into a PluXml Plugin)
   All Rights Reserved.
 
   Redistribution and use in source and binary forms, with or without
