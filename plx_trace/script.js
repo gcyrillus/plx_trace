@@ -32,21 +32,27 @@ function ajax_file_upload(file_obj,ipt,section,dir) {
                 let msg='';
                 let msgwarning='';
                 if(this.responseText.trim() !='Fichier avec l\'extension gpx requis') { 
-                ipt.trim();
-                 msg='<b class="green">&check;</b> <em style="color:tomato">Le code pour ce fichier est dans la liste.</em>';
-                let selectToUpdate='[name=select'+ipt+']';
-                let selgpx=document.querySelector(selectToUpdate); 
-                let newOpt = document.createElement('option');
-                newOpt.textContent =`${this.responseText}`;
-                let newAttr = `plugins/plx_trace/gpx/${dir.trim()}/${this.responseText.trim()}`;
-                newOpt.setAttribute('value',newAttr);
-                selgpx.appendChild(newOpt);  
+                    ipt.trim();
+                    let selectToUpdate='[name=select'+ipt+']';
+                    let selgpx=document.querySelector(selectToUpdate); 
+                    let optionLabels = Array.from(selgpx.options).map((opt) => opt.text);                    
+                        if(optionLabels.includes(this.responseText.trim())) {
+                            msg= ' <b class="green"> ! </b><b style="order:-1;"> Fichier mis à jour: </b>' ;
+                        }
+                        else {                
+                             msg=' <b class="green">&check;</b> <em style="color:tomato">Le code pour ce fichier est dans la liste.</em>';
+                            let newOpt = document.createElement('option');
+                            newOpt.textContent =`${this.responseText}`;
+                            let newAttr = `plugins/plx_trace/gpx/${dir.trim()}/${this.responseText.trim()}`;
+                            newOpt.setAttribute('value',newAttr);
+                            selgpx.appendChild(newOpt);  
+                        }
             }  else { 
                  msg='<b  style="color:tomato;background:pink;" class="green">!</b>';
-                 msgwarning=' style=\'color:tomato;text-align:center;font-weight:bold;\'';             
-            }                
-                newinfos=`    <p  ${msgwarning}> ${this.responseText}   ${msg}</p> `;
-                 
+                 msgwarning='  color:tomato;text-align:center;font-weight:bold; ';             
+            }  
+                        
+                newinfos=`    <p  style="display:flex;gap:0.25em;${msgwarning}"> ${this.responseText}   ${msg}</p> `;                 
                 output.innerHTML =  newinfos;
             } else {
                 output.innerHTML = "Error " + xhttp.status + " occurred when trying to upload your file.";
