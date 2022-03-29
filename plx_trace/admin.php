@@ -12,7 +12,7 @@ $plxAdmin->checkProfil(PROFIL_ADMIN);
 		if (!file_exists(PLX_PLUGINS.'plx_trace/gpx/'.trim($_POST['newDir']))) {
 		mkdir(PLX_PLUGINS.'plx_trace/gpx/'.trim($_POST['newDir']), 0777);
 		}
-		header('Location: parametres_plugin.php?p='.$plugin);
+		header('Location: plugin.php?p='.$plugin);
 	exit;
     }
 // efface un sous repertoire de gpx
