@@ -5,7 +5,7 @@
 $plxAdmin->checkProfil(PROFIL_ADMIN);
 	if(isset($_GET['del']) && $_GET['del'] !='') {	
 		deleteDir(PLX_PLUGINS.'plx_trace/gpx/'.trim($_GET['del']));		
-	header('Location: parametres_plugin.php?p='.$plugin);
+	header('Location: plugin.php?p='.$plugin);
 	exit;
 	}		
     if(!empty($_POST)) {
@@ -44,7 +44,7 @@ function getGpxDir() {
 			$dir=basename($item);
 			$i++;
 			echo'
-				<h3 class="fullWidth flex">Repertoire: <b>'.$dir.'</b> <a href="parametres_plugin.php?p=plx_trace&del='.$dir.'" style="margin-inline-start:auto;" onclick="return confirm(\'Cliquez OK pour effacer definitivement ce repertoire\');"> effacer ce repertoire entierement</a></h3>
+				<h3 class="fullWidth flex">Repertoire: <b>'.$dir.'</b> <a href="plugin.php?p=plx_trace&del='.$dir.'" style="margin-inline-start:auto;" onclick="return confirm(\'Cliquez OK pour effacer definitivement ce repertoire\');"> effacer ce repertoire entierement</a></h3>
 				<div id="sect'.$i.'">
 				<div class="drag_upload_file" ondrop="upload_file(event,\'file'.$i.'\',\'sect'.$i.'\',\''.$dir.'\')" ondragover="return false">
 				<input type="hidden" value="'.basename($dir).'" name="dirfile'.$i.'"/>
@@ -147,7 +147,7 @@ legend {
   flex-wrap:wrap;
 }
 </style>
-<form action="parametres_plugin.php?p=<?php echo $plugin ?>" method="post" class="HookMyTheme">
+<form action="plugin.php?p=<?php echo $plugin ?>" method="post" class="HookMyTheme">
  <fieldset>
 	<legend>gestion des traces</legend>
 	<div id="drop_file_area" >
