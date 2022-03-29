@@ -17,7 +17,7 @@ $filename = $_FILES['file']['name'];
 awaiting feedbacks, to choose: do not overwrite, rename or overwrite file or all 3 config options ?*//*
 $name = pathinfo($filename, PATHINFO_FILENAME);
 $increment = ''; 
-while(file_exists($name . $increment . '.' . $arr_file_ext)) {
+while(file_exists($name . $increment . '.' . $arr_file_ext[0])) {
     $increment++;
 }
 */
