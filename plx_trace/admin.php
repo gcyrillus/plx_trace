@@ -97,6 +97,10 @@ function getGpxFile($dir) {
 .drag_upload_file {
   text-align: center;
 }
+.drag_upload_file input {
+  float: right;
+  margin: 0.25em 1.5em;
+}
 #drag_upload_file p {
   text-align: center;
   display: inline-block;
