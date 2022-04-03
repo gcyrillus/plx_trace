@@ -2,18 +2,20 @@
 <document>
     <title><![CDATA[plx_trace]]></title>
     <author><![CDATA[GC-nomade]]></author>
-    <version>version 2.11</version>
-    <date>28/03/2022</date>
+    <version>version 2.13</version>
+    <date>01/04/2022</date>
     <site>http://re7net.com</site>
     <description><![CDATA[
-    Plugin permettant d'afficher , par page, une carte openstreetmap lié a un fichier gpx.
+    Plugin permettant d'afficher vos ballades a partir de vos fichiers gpx.
+    Une carte par page affiche vos traces sur openstreetmap(utilise leaflet et son plugin GPX for leaflet).
     
     -Options
       |- upload de fichier gpx
-      |- creations de repertoire de stockage des gpx pour les triées
+      |- creation de repertoire de stockage des gpx
       |- effacement des repertoires et de leurs contenus (effacez les repertoires de démos et créer les votres)
+      |- Options au téléversement: signale, renomme ou remplace un fichier de même nom.
+      |- Option preview de la carte dans l'admin
      
-Code inspiré du plugin pour PluXml 'plx-hookMyTheme' pour embarquer le plugin  'GPX plugin' for Leaflet.
      ]]></description>
     <scope></scope>
 </document>

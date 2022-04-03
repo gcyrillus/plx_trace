@@ -33,7 +33,7 @@
 <!--
   Copyright (C) 2011-2012 Pavel Shramov
   Copyright (C) 2013 Maxime Petazzoni <maxime.petazzoni@bulix.org>
-  Copyright (C) 2022 Griboval Cyrille https://github.com/gcyrillus/plx_trace/ (minor modifications to turn it into a ©PluXml Plugin)
+  Copyright (C) 2022 Griboval Cyrille https://github.com/gcyrillus/plx_trace/ (minors modifications to turn it into a ©PluXml Plugin)
   All Rights Reserved.
 
   Redistribution and use in source and binary forms, with or without
@@ -76,10 +76,12 @@
 		}
  
 	#fonctions des hooks
-				
+		
+
+		
 		#recherche de la balise <plx_trace/> et injecte le script
 		public function IndexEnd() {
-			$prependToTag ='<plx_trace/>';
+			$prependToTag ='<p data-use="plx_trace">&nbsp;</p>';
 			echo '<?php ';?>
 				ob_start();
 				if ( trim(strlen(dirname($_SERVER['SCRIPT_NAME'])) >1)) {
@@ -90,7 +92,7 @@
 						$localPrefX = '../';
 					}
 					if( $plxMotor->mode == 'home' ){
-						$localPrefX = '';
+						$localPrefX = './';
 					}
 				} 
 				else {
