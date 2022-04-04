@@ -2,8 +2,8 @@
 <document>
     <title><![CDATA[plx_trace]]></title>
     <author><![CDATA[GC-nomade]]></author>
-    <version>version 2.13</version>
-    <date>01/04/2022</date>
+    <version>version 2.14</version>
+    <date>03/04/2022</date>
     <site>http://re7net.com</site>
     <description><![CDATA[
     Plugin permettant d'afficher vos ballades a partir de vos fichiers gpx.
