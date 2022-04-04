@@ -18,10 +18,12 @@ CKEDITOR.addTemplates( 'plx_trace', {
 		html: '<h3>Titre: Remplacer ce titre et le texte d\'aide par les votres.</h3>'+
 		'<p><strong><u>Aide:</u></strong>: Pour finaliser l\'insertion de votre trace GPX, <b style="color:red">veuillez, passer en mode </b><i>Source</i> en cliquant l\'icône <img src="../../plugins/ckeditor/ckeditor/plugins/sourcearea/icons/hidpi/source.png"> Source ,<b style="color:red"> puis remplacer et mettre à jour le lien</b> <i><code>plugins/plx_trace/gpx/<b style="color:tomato">test/etape1.gpx</b> </code></i> en indiquant celui de votre fichier gpx.(repertoire et nom de fichier)</p>'+
 		' '+
-		'<!-- inserez le code ici en remplaçant cette ligne -->'+
-		'<script>const gpxFile="plugins/plx_trace/gpx/test/etape1.gpx";</script>'+
-		'<div id="myMapGpx"><img src="../../plugins/ckeditor/ckeditor/plugins/templates/templates/images/map.jpg" style="width:80%;margin:1em auto;display:block;">'+
-		'<p style="text-align:center;text-decoration:underline;">Cette carte et ce texte seront remplacer par votre carte si le plugin <b>plx_trace</b> est actif.</p></div><p data-use="plx_trace">&nbsp;</p>'+
+		'<script>const gpxFile="plugins/plx_trace/gpx/demo/demo.gpx";</script>'+
+		'<div id="myMapGpx">'+
+		'  <img src="../../plugins/ckeditor/ckeditor/plugins/templates/templates/images/map.jpg" style="width:80%;margin:1em auto;display:block;">'+
+		'  <p style="text-align:center;text-decoration:underline;">Cette carte et ce texte seront remplacer par votre carte si le plugin <b>plx_trace</b> est actif.</p>'+
+		'</div>'+
+		'<p data-use="plx_trace">&nbsp;</p>'+
 		' '+
 		'<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>'
 	}]
