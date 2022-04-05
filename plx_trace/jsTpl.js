@@ -52,6 +52,7 @@
           },
         }).on('loaded', function(e) {
           var gpx = e.target;
+          var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
           map.fitBounds(gpx.getBounds());
           control.addOverlay(gpx, gpx.get_name());
 
@@ -60,7 +61,7 @@
            * an actual GPS track with timing and heartrate information.
            */
           _t('h3').textContent = gpx.get_name();
-          _c('start').textContent = gpx.get_start_time().toDateString() + ', '
+          _c('start').textContent = gpx.get_start_time().toLocaleDateString( locale, options)  + ', '
             + gpx.get_start_time().toLocaleTimeString();
           _c('distance').textContent = gpx.m_to_km(gpx.get_distance().toFixed(0));
 
