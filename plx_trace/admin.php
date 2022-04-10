@@ -10,8 +10,12 @@ $plxAdmin->checkProfil(PROFIL_ADMIN);
 	}		
     if(!empty($_POST)) {
 		if (!file_exists(PLX_PLUGINS.'plx_trace/gpx/'.trim($_POST['newDir']))) {
-		mkdir(PLX_PLUGINS.'plx_trace/gpx/'.trim($_POST['newDir']), 0777);
+		mkdir(PLX_PLUGINS.'plx_trace/gpx/'.trim($_POST['newDir']), 0777);		
+		$htaxces = 'Header add Access-Control-Allow-Origin "*"'.PHP_EOL .'Header add Access-Control-Allow-Methods: "GET,POST,OPTIONS,DELETE,PUT"';
+       file_put_contents(PLX_PLUGINS.'plx_trace/gpx/'.trim($_POST['newDir']).'/.htaccess', $htaxces);
+       file_put_contents(PLX_PLUGINS.'plx_trace/gpx/'.trim($_POST['newDir']).'/index.html', '');
 		}
+		$plxPlugin->saveParams();// valide la configuration du plugin
 		header('Location: plugin.php?p='.$plugin);
 	exit;
     }
@@ -46,12 +50,12 @@ function getGpxDir() {
 			echo'
 				<h3 class="fullWidth flex">Repertoire: <b>'.$dir.'</b> <a href="plugin.php?p=plx_trace&del='.$dir.'" style="margin-inline-start:auto;" onclick="return confirm(\'Cliquez OK pour effacer definitivement ce repertoire\');"> effacer ce repertoire entierement</a></h3>
 				<div id="sect'.$i.'">
-				<div class="drag_upload_file" ondrop="upload_file(event,\'file'.$i.'\',\'sect'.$i.'\',\''.$dir.'\')" ondragover="return false">
-				<input type="hidden" value="'.basename($dir).'" name="dirfile'.$i.'"/>
-				  <p>Deposer votre fichier  <i>gpx</i> ici ou  <input type="file" id="file'.$i.'" name="file'.$i.'[]"   multiple />
-				  <input type="button" value="Select File" onclick="file_explorer(\'file'.$i.'\',\'sect'.$i.'\',\''.$dir.'\');" />
-				  <br><label for="file'.$i.'"> cliquez ici.</label></p>
-				</div>
+					<div class="drag_upload_file" ondrop="upload_file(event,\'file'.$i.'\',\'sect'.$i.'\',\''.$dir.'\', upAction )" ondragover="return false">
+					<input type="hidden" value="'.basename($dir).'" name="dirfile'.$i.'"/>
+					  <p>Deposer votre fichier  <i>gpx</i> ici ou  <input type="file" id="file'.$i.'" name="file'.$i.'[]"   multiple />
+					  <input type="button" value="Select File" onclick="file_explorer(\'file'.$i.'\',\'sect'.$i.'\',\''.$dir.'\');" />
+					  <br><label for="file'.$i.'"> cliquez ici.</label></p>
+					</div>
 			</div>'.PHP_EOL .
 			'<div class="results">
 				<select name="selectfile'.$i.'" data-code="code'.$i.'">
@@ -60,7 +64,8 @@ function getGpxDir() {
 			echo'</select>
 			<p> Code à copier dans l\'article</p>
 			<textarea class="code'.$i.'"></textarea>
-			</div>';
+			</div>
+			<div class="fullWidth" id="code'.$i.'"><object class="gpxmap"></object></div>';
 		}		
 	}
 }
@@ -68,8 +73,7 @@ function getGpxFile($dir) {
 	$gpxFile= glob(PLX_PLUGINS.'plx_trace/gpx/'.$dir.'/*.gpx'); 
 		foreach($gpxFile as $file) {
 			echo '<option value="'.$file.'">'.basename($file).'</option>';
-		}
-	
+		}	
 }
 
 ?>
@@ -97,14 +101,14 @@ function getGpxFile($dir) {
 .drag_upload_file {
   text-align: center;
 }
-.drag_upload_file input {
-  float: right;
-  margin: 0.25em 1.5em;
-}
 #drag_upload_file p {
   text-align: center;
   display: inline-block;
   margin: 0 1em;
+}
+.drag_upload_file input {
+  float: right;
+  margin: 0.25em 1.5em;
 }
 #drag_upload_file #selectfile {
   display: none;
@@ -149,16 +153,60 @@ legend {
 .flex {
   display:flex;
   flex-wrap:wrap;
+  gap:inherit;
+}
+.gap1{
+	gap:1rem;
+}
+.mw100 {
+	min-width:95%;
+}
+.space-around {
+	justify-content:space-around;
+}
+p.fullWidth.flex.gap1.space-around {
+  background: #bee;
+  margin: 0;
+  padding: 0.5em;
+  border-radius: 5px;
+}
+.mw100 {
+  text-align: center;
+}
+.mw100 b {
+  padding: 0 3em;
+  color: orangered;
+}
+.gpxmap {
+  width: 100%;
+  aspect-ratio: 16/10;
+}
+object:not([data]) {
+    display: none;
+}
+p:last-of-type.fullWidth.flex.gap1.space-around {
+  background: darkseagreen;
+  margin-top: 0.5em;
 }
 </style>
 <form action="plugin.php?p=<?php echo $plugin ?>" method="post" class="HookMyTheme">
  <fieldset>
-	<legend>gestion des traces</legend>
-	<div id="drop_file_area" >
-		<p class="fullWidth flex" style="gap:1em;"><label for="newDir"> Créer un nouveau repertoire</label><input name="newDir"/><?php 	echo plxToken::getTokenPostMethod();?>
-	<input type="submit" name="submit" value="Enregistrer"  style="margin-inline-start:auto;"/></p>
-	<?php getGpxDir(); ?>
-	</div>
-	<script src="<?php echo PLX_PLUGINS.$plugin.'/script.js'; ?>"></script>
+ <legend>gestion des traces</legend>
+
+ <div id="drop_file_area" >
+    <p class="fullWidth flex " style="gap:1em;"><label for="newDir"> Créer un nouveau repertoire</label><input name="newDir"/><?php 	echo plxToken::getTokenPostMethod();?>
+<input type="submit" name="submit" value="Enregistrer"  style="margin-inline-start:auto;"/></p>
+<p class="fullWidth flex gap1 space-around"><span class="mw100"><b>Televersement fichier gpx</b> Action à effectuer si le nom de fichier existe :</span>
+<span class="flex"><label for="crunch">Remplacer</label><input type="radio" name="action" id="crunch" value="crunch" /></span>
+<span class="flex"><label for="rename">Renommer</label><input type="radio" name="action" id="crunch" value="rename"/></span>
+<span class="flex"><label for="ignore">Signaler</label><input type="radio" name="action" id="crunch" value="ignore" checked/></span>
+</p>
+<p class="fullWidth flex gap1 space-around"><label for="preview" >Afficher un preview du fichier gpx selectionner</label><input type="checkbox" name="preview"/></p>
+<?php getGpxDir(); ?>
+</div>
+
+  <script src="<?php echo PLX_PLUGINS.$plugin.'/script.js'; ?>"></script>
+
 </fieldset>
+
 </form>
