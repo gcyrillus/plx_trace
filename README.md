@@ -15,12 +15,17 @@ allez dans configuration.
 
 Créer un repertoire ou utiliser l'un de ceux présent en démo.
 
-Glisser / déposer votre fichier fichier gpx dans la zone indiquée.
+Glisser / déposer votre fichier fichier gpx dans la zone indiquée. 
+Si un fichier du même nom existe, il y a 3 options configurable
+
+ * Remplacer
+ * Renommer (ajoute au fichier : -AAA, puis -AAB et ainsi de suite)
+ * **Signaler et ne rien faire. (Comportement par défaut)**
 
 A droite de chaque zone de dépot de fichier, un menu liste chaques fichiers disponibles.
 
-En cliquant sur l'un deux, un code à copier apparait dans la boite sous la liste.
+En cliquant sur l'un deux, un code à copier apparait dans la boite sous la liste. *Une option de previsualisation est cochable.*
 
 Copier ce code et coller le dans votre article là ou vous souhaiter afficher votre carte.
 
-**Une seule carte ne peut-être inserer par article.**
+**Vous pouvez afficher autant de carte que vous souhaitez : un code =  1carte**
