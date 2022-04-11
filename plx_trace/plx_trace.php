@@ -97,11 +97,11 @@
 			}
 			$prefX = '<script>const prefX ="'.$localPrefX.'";</script>';
 			echo '<?php ';?>			
-			$toFind ='<p data-use="plx_trace">&nbsp;</p>';
+			$toFind ="data-gpxFile";
 			$found = strpos($output, $toFind);
 					 ?>
 			<?php
-			if( '<?php echo $found ?>' > '1') {
+			if( '<?php echo $found ?>' > '0') {
 				echo $prefX.PHP_EOL.$jsTpl;
 			}
 		}
