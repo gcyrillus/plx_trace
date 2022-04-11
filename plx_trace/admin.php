@@ -11,7 +11,7 @@ $plxAdmin->checkProfil(PROFIL_ADMIN);
     if(!empty($_POST)) {
 		if (!file_exists(PLX_PLUGINS.'plx_trace/gpx/'.trim($_POST['newDir']))) {
 		mkdir(PLX_PLUGINS.'plx_trace/gpx/'.trim($_POST['newDir']), 0777);		
-		$htaxces = 'Header add Access-Control-Allow-Origin "*"'.PHP_EOL .'Header add Access-Control-Allow-Methods: "GET,POST,OPTIONS,DELETE,PUT"';
+		$htaxces = 'Header add Access-Control-Allow-Origin "*"';
        file_put_contents(PLX_PLUGINS.'plx_trace/gpx/'.trim($_POST['newDir']).'/.htaccess', $htaxces);
        file_put_contents(PLX_PLUGINS.'plx_trace/gpx/'.trim($_POST['newDir']).'/index.html', '');
 		}
