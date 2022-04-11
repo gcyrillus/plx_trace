@@ -25,13 +25,18 @@
 		#Intitulé lien dans le menu admin
 		$this->setAdminMenu( ' TRACE GPX'  , 20,  ' GESTION TRACE GPX');
 		
-		
-
-
- 
-	#fonctions des hooks
-		
     }
+	  
+	  	public function OnActivate() {					
+			$gpxDir = glob(PLX_PLUGINS.__CLASS__.'/gpx/*');
+			$htaxces = 'Header add Access-Control-Allow-Origin "*"';
+			foreach($gpxDir as $gpxFolder) {
+				if (!file_exists($gpxFolder.'/.htaccess')) {
+					file_put_contents($gpxFolder.'/.htaccess', $htaxces);
+					file_put_contents($gpxFolder.'/index.html', '');
+				}			
+			}	
+		}
 		
 		#recherche de la balise <plx_trace/> et injecte le script
 		public function ThemeEndBody() {
