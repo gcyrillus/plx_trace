@@ -43,11 +43,11 @@ function ajax_file_upload(file_obj,ipt,section,dir,upAction) {
                 let msg='';
                 let msgwarning='';
                 
-                if(this.responseText.trim() =='Ce fichier existe déjà') {
+                if((this.responseText.trim() == file_exists) ||(this.responseText.trim() == fileExt_required)) {
                     msg= ' <b class="green" style="color:tomato;background:pink; padding:0 0.5em" > ! </b>' ;
                     msgwarning='  color:tomato;text-align:center;font-weight:bold; ';
                 } 
-                else if(this.responseText.trim() !='Fichier avec l\'extension gpx requis' || this.responseText.trim() !='Ce fichier existes déjà') { 
+                else if((this.responseText.trim() !=fileExt_required) || (this.responseText.trim() != file_exists)) { 
                     ipt.trim();
                     let selectToUpdate='[name=select'+ipt+']';
                     let selgpx=document.querySelector(selectToUpdate); 
@@ -56,7 +56,7 @@ function ajax_file_upload(file_obj,ipt,section,dir,upAction) {
                             msg= ' <b class="green"> ! </b><b style="order:-1;"> Fichier mis à jour: </b>' ;
                         }
                         else {                
-                             msg=' <b class="green">&check;</b> <em style="color:tomato">Le code pour ce fichier est dans la liste.</em>';
+                             msg=' <b class="green">&check;</b> <em style="color:tomato">Fichier àjouté à la liste.</em>';
                             let newOpt = document.createElement('option');
                             newOpt.textContent =`${this.responseText}`;
                             let newAttr = `plugins/plx_trace/gpx/${dir.trim()}/${this.responseText.trim()}`;
@@ -71,7 +71,7 @@ function ajax_file_upload(file_obj,ipt,section,dir,upAction) {
                 newinfos=`    <p  style="display:flex;gap:0.25em;${msgwarning}"> ${this.responseText}   ${msg}</p> `;                 
                 output.innerHTML =  newinfos;
             } else {
-                output.innerHTML = "Une erreur " + xhttp.status + " est survenue en tentant de telecharger le fichier.";
+                output.innerHTML = fileError +' ' + xhttp.status + " est survenue en tentant de telecharger le fichier.";
             }
         }
  
@@ -122,7 +122,7 @@ for (let gpxFile of document.querySelectorAll('#drop_file_area .results select')
     <body>
             <section id="demo" class="gpx" data-gpx-source="${root}/${tracegpxFile}" data-map-target="map">
           <header>
-            <h3>Chargement...</h3>
+            <h3>${loading}</h3>
             <span class="start"></span>
           </header>
 
@@ -132,16 +132,16 @@ for (let gpxFile of document.querySelectorAll('#drop_file_area .results select')
 
           <footer>
         <ul class="info">
-          <li>Distance:&nbsp;<span class="distance"></span>&nbsp;km</li>
-          | <li>Dur&eacute;e:&nbsp;<span class="duration"></span></li>
-          | <li>Temps:&nbsp;<span class="pace"></span>/km</li>
-          | <li>Avg&nbsp;HR:&nbsp;<span class="avghr"></span>&nbsp;bpm</li>
-          | <li>Cadence&nbsp;:&nbsp;<span class="cadence"></span>&nbsp;tpm</li>
+          <li>${distance}<span class="distance"></span>&nbsp;km</li>
+          | <li>${duration}<span class="duration"></span></li>
+          | <li>${time}<span class="pace"></span>/km</li>
+          | <li>${avghr}<span class="avghr"></span>&nbsp;bpm</li>
+          | <li>${cadence}<span class="cadence"></span>&nbsp;tpm</li>
         </ul>
         <ul class="info">
-          <li>D&eacute;nivel&eacute;:&nbsp;positif <span class="elevation-gain"></span>&nbsp;m</li>
-          | <li>D&eacute;nivel&eacute;:&nbsp;négatif <span class="elevation-loss"></span>&nbsp;m</li>
-          | <li>D&eacute;nivel&eacute;:&nbsp;moyen <span class="elevation-net"></span>&nbsp;m</li>
+          <li>${postilt}<span class="elevation-gain"></span>&nbsp;m</li>
+          | <li>${negtilt} <span class="elevation-loss"></span>&nbsp;m</li>
+          | <li>${avgtilt} <span class="elevation-net"></span>&nbsp;m</li>
         </ul>
           </footer>
         </section>
@@ -176,12 +176,12 @@ for (let gpxFile of document.querySelectorAll('#drop_file_area .results select')
               },
             }).on('loaded', function(e) {
               var gpx = e.target;
+              var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
               map.fitBounds(gpx.getBounds());
               control.addOverlay(gpx, gpx.get_name());
 
               _t('h3').textContent = gpx.get_name();
-              _c('start').textContent = gpx.get_start_time().toDateString() + ', '
-                + gpx.get_start_time().toLocaleTimeString();
+              _c('start').textContent = gpx.get_start_time().toLocaleDateString( '${defLang}' , options)  + ', ' + gpx.get_start_time().toLocaleTimeString();
               _c('distance').textContent = gpx.m_to_km(gpx.get_distance().toFixed(0));
 
               _c('duration').textContent = gpx.get_duration_string(gpx.get_moving_time());

@@ -3,6 +3,9 @@
 	plxToken::validateFormToken($_POST);
 # Controle de l'accès à la page en fonction du profil de l'utilisateur connecté
 $plxAdmin->checkProfil(PROFIL_ADMIN);
+
+echo $plxAdmin->aConf['default_lang'];
+
 	if(isset($_GET['del']) && $_GET['del'] !='') {	
 		deleteDir(PLX_PLUGINS.'plx_trace/gpx/'.trim($_GET['del']));		
 	header('Location: plugin.php?p='.$plugin);
@@ -41,6 +44,7 @@ function deleteDir($deldir) {
 }			
 // on liste les fichiers par repertoire et on affiche leur zone de televersement et la listes des traces disponibles.
 function getGpxDir() {
+	global $plxPlugin;
 	$gpxDir = glob(PLX_PLUGINS.'plx_trace/gpx/*');
 	$i='0';
 	foreach($gpxDir as $item) {
@@ -48,21 +52,21 @@ function getGpxDir() {
 			$dir=basename($item);
 			$i++;
 			echo'
-				<h3 class="fullWidth flex">Repertoire: <b>'.$dir.'</b> <a href="plugin.php?p=plx_trace&del='.$dir.'" style="margin-inline-start:auto;" onclick="return confirm(\'Cliquez OK pour effacer definitivement ce repertoire\');"> effacer ce repertoire entierement</a></h3>
+				<h3 class="fullWidth flex">'.$plxPlugin->getLang('L_FOLDER').': <b>'.$dir.'</b> <a href="plugin.php?p=plx_trace&del='.$dir.'" style="margin-inline-start:auto;" onclick="return confirm(\''.$plxPlugin->getLang('L_CONFIRM_DELETE').'\');">'.$plxPlugin->getLang('L_DELETE_FOLDER').'</a></h3>
 				<div id="sect'.$i.'">
 					<div class="drag_upload_file" ondrop="upload_file(event,\'file'.$i.'\',\'sect'.$i.'\',\''.$dir.'\', upAction )" ondragover="return false">
 					<input type="hidden" value="'.basename($dir).'" name="dirfile'.$i.'"/>
-					  <p>Deposer votre fichier  <i>gpx</i> ici ou  <input type="file" id="file'.$i.'" name="file'.$i.'[]"   multiple />
+					  <p>'.$plxPlugin->getLang('L_DROP_GPX_FILE_OR').' <input type="file" id="file'.$i.'" name="file'.$i.'[]"   multiple />
 					  <input type="button" value="Select File" onclick="file_explorer(\'file'.$i.'\',\'sect'.$i.'\',\''.$dir.'\');" />
-					  <br><label for="file'.$i.'"> cliquez ici.</label></p>
+					  <br><label for="file'.$i.'">'.$plxPlugin->getLang('L_CLICK_HERE').'</label></p>
 					</div>
 			</div>'.PHP_EOL .
 			'<div class="results">
 				<select name="selectfile'.$i.'" data-code="code'.$i.'">
-					<option value="">Choississez un fichier de parcours</option>'.PHP_EOL;
+					<option value="">'.$plxPlugin->getLang('L_CHOOSE_GPX_TRACE').'</option>'.PHP_EOL;
 			getGpxFile($dir);
 			echo'</select>
-			<p> Code à copier dans l\'article</p>
+			<p>'.$plxPlugin->getLang('L_CODE_TO_PASTE').'</p>
 			<textarea class="code'.$i.'"></textarea>
 			</div>
 			<div class="fullWidth" id="code'.$i.'"><object class="gpxmap"></object></div>';
@@ -76,7 +80,24 @@ function getGpxFile($dir) {
 		}	
 }
 
-?>
+// INI Lang javascript
+?><script>
+const defLang			='<?php echo $plxAdmin->aConf['default_lang']; ?>';
+const file_exists 		='<?php $plxPlugin->lang('L_FILE_EXISTS') ?>';
+const fileExt_required 	='<?php $plxPlugin->lang('L_GPX_REQUIRED') ?>';
+const fileError 		='<?php $plxPlugin->lang('L_FILE_ERROR') ?>';
+const fileUploadError	='<?php $plxPlugin->lang('L_FILE_UPLOAD_ERROR') ?>';
+const loading 			='<?php $plxPlugin->lang('L_LOADING') ?>'; 
+const distance			='<?php $plxPlugin->lang('L_DISTANCE') ?>'; 						 
+const duration 			='<?php $plxPlugin->lang('L_DURATION') ?>'; 						 
+const time 				='<?php $plxPlugin->lang('L_TIME') ?>'; 						 
+const avghr 			='<?php $plxPlugin->lang('L_AVERAGE_HEART_RATE') ?>'; 				 
+const cadence 			='<?php $plxPlugin->lang('L_CADENCE') ?>'; 						 
+const postilt 			='<?php $plxPlugin->lang('L_POSITIVE_TILT') ?>'; 					 
+const negtilt 			='<?php $plxPlugin->lang('L_NEGATIVE_TILT') ?>'; 					 
+const avgtilt 			='<?php $plxPlugin->lang('L_AVERAGE_TILT') ?>'; 					 
+</script>
+
 <style>
 #drop_file_area {
 	border-bottom:solid;
@@ -194,14 +215,14 @@ p:last-of-type.fullWidth.flex.gap1.space-around {
  <legend>gestion des traces</legend>
 
  <div id="drop_file_area" >
-    <p class="fullWidth flex " style="gap:1em;"><label for="newDir"> Créer un nouveau repertoire</label><input name="newDir"/><?php 	echo plxToken::getTokenPostMethod();?>
-<input type="submit" name="submit" value="Enregistrer"  style="margin-inline-start:auto;"/></p>
-<p class="fullWidth flex gap1 space-around"><span class="mw100"><b>Televersement fichier gpx</b> Action à effectuer si le nom de fichier existe :</span>
-<span class="flex"><label for="crunch">Remplacer</label><input type="radio" name="action" id="crunch" value="crunch" /></span>
-<span class="flex"><label for="rename">Renommer</label><input type="radio" name="action" id="crunch" value="rename"/></span>
-<span class="flex"><label for="ignore">Signaler</label><input type="radio" name="action" id="crunch" value="ignore" checked/></span>
+    <p class="fullWidth flex " style="gap:1em;"><label for="newDir"><?php $plxPlugin->lang('L_CREATE_FOLDER') ?> </label><input name="newDir"/><?php 	echo plxToken::getTokenPostMethod();?>
+<input type="submit" name="submit" value="<?php $plxPlugin->lang('L_SAVE') ?>"  style="margin-inline-start:auto;"/></p>
+<p class="fullWidth flex gap1 space-around"><span class="mw100"><?php $plxPlugin->lang('L_IF_FILE_EXISTS_DO') ?></span>
+<span class="flex"><label for="crunch"><?php $plxPlugin->lang('L_CRUNCH') ?></label><input type="radio" name="action" id="crunch" value="crunch" /></span>
+<span class="flex"><label for="rename"><?php $plxPlugin->lang('L_RENAME') ?></label><input type="radio" name="action" id="crunch" value="rename"/></span>
+<span class="flex"><label for="ignore"><?php $plxPlugin->lang('L_WARN') ?></label><input type="radio" name="action" id="crunch" value="ignore" checked/></span>
 </p>
-<p class="fullWidth flex gap1 space-around"><label for="preview" >Afficher un preview du fichier gpx selectionner</label><input type="checkbox" name="preview"/></p>
+<p class="fullWidth flex gap1 space-around"><label for="preview" ><?php $plxPlugin->lang('L_PREVIEW_GPX') ?></label><input type="checkbox" name="preview"/></p>
 <?php getGpxDir(); ?>
 </div>
 

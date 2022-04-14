@@ -2,20 +2,18 @@
 <document>
     <title><![CDATA[plx_gpx]]></title>
     <author><![CDATA[GC-nomade]]></author>
-    <version>version 2.14</version>
-    <date>10/04/2022</date>
+    <version>version 2.15</version>
+    <date>13/04/2022</date>
     <site>http://re7net.com</site>
-    <description><![CDATA[
-    Plugin permettant d'afficher vos ballades a partir de vos fichiers gpx sur des cartes openstreetmap(utilise leaflet et son plugin GPX for leaflet).
-    Pour afficher une carte, ajouter dans votre article le code HTML fourni dans l'admin en cliquant sur le nom du fichier.
-    Plusieurs cartes peuvent être affichées dans un article.
-    -Options
+    <description><![CDATA[Partage vos traces GPX dans vos articles ou pages statiques.
+    - multilingue 
+    -Options Administration
       |- upload de fichier gpx
-      |- creation de repertoire de stockage des gpx
+      |- creation de dossier de stockage des gpx
       |- effacement des repertoires et de leurs contenus (effacez les repertoires de démos et créer les votres)
       |- Options au téléversement: signale, renomme ou remplace un fichier de même nom.
       |- Option preview de la carte dans l'admin
-     
+      |- Protection de l'accés à vos fichiers gpx     
      ]]></description>
     <scope></scope>
 </document>
