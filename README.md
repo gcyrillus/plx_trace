@@ -1,5 +1,5 @@
 # plx_trace
-plugin utilsant leaflet et openstreetmaps pour afficher vos traces.
+plugin multilingue utilsant leaflet et openstreetmaps pour afficher vos traces.
 
 Inspiré du plugin pour PluXml https://github.com/gcyrillus/plx-hookMyTheme  et du plugin pour leaflet https://github.com/mpetazzoni/leaflet-gpx .
 
