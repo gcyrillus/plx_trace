@@ -4,19 +4,17 @@
 # Controle de l'accès à la page en fonction du profil de l'utilisateur connecté
 $plxAdmin->checkProfil(PROFIL_ADMIN);
 
-echo $plxAdmin->aConf['default_lang'];
-
 	if(isset($_GET['del']) && $_GET['del'] !='') {	
-		deleteDir(PLX_PLUGINS.'plx_trace/gpx/'.trim($_GET['del']));		
+	$removeDir= basename($_GET['del']);
+		deleteDir(PLX_PLUGINS.'plx_trace/gpx/'.trim($removeDir));		
 	header('Location: plugin.php?p='.$plugin);
 	exit;
 	}		
     if(!empty($_POST)) {
 		if (!file_exists(PLX_PLUGINS.'plx_trace/gpx/'.trim($_POST['newDir']))) {
-		mkdir(PLX_PLUGINS.'plx_trace/gpx/'.trim($_POST['newDir']), 0777);		
-		$htaxces = 'Header add Access-Control-Allow-Origin "*"';
-       file_put_contents(PLX_PLUGINS.'plx_trace/gpx/'.trim($_POST['newDir']).'/.htaccess', $htaxces);
-       file_put_contents(PLX_PLUGINS.'plx_trace/gpx/'.trim($_POST['newDir']).'/index.html', '');
+			$newDir = basename($_POST['newDir']);
+		mkdir(PLX_PLUGINS.'plx_trace/gpx/'.trim($newDir), 0777);		
+       file_put_contents(PLX_PLUGINS.'plx_trace/gpx/'.trim($newDir).'/index.html', '');
 		}
 		$plxPlugin->saveParams();// valide la configuration du plugin
 		header('Location: plugin.php?p='.$plugin);
@@ -24,23 +22,28 @@ echo $plxAdmin->aConf['default_lang'];
     }
 // efface un sous repertoire de gpx
 function deleteDir($deldir) {
-	if (file_exists($deldir)) {
-		$dir = opendir($deldir);
-		while (false !== ($file = readdir($dir))) {
-			if (($file != '.') && ($file != '..')) {
-				$full = $deldir . '/' . $file;
-				if (is_dir($full)) {
-					deleteDir($full);
-				} else {
-					unlink($full);
+	
+	// on verifie que l'on est bien dans un sous repertoire de gpx
+	if(substr(0,strlen(PLX_PLUGINS.'plx_trace/gpx/'))== PLX_PLUGINS.'plx_trace/gpx/') {
+		if (file_exists($deldir)) {
+			$dir = opendir($deldir);
+			while (false !== ($file = readdir($dir))) {
+				if (($file != '.') && ($file != '..')) {
+					$full = $deldir . '/' . $file;
+					if (is_dir($full)) {
+						deleteDir($full);
+					} else {
+						unlink($full);
+					}
 				}
 			}
-		}
-		@closedir($deldir);
-		if(rmdir($deldir)) {
-			return plxMsg::Info(L_DELETE_SUCCESSFUL);
+			@closedir($deldir);
+			if(rmdir($deldir)) {
+				return plxMsg::Info(L_DELETE_SUCCESSFUL);
+			}
 		}
 	}
+	else {return plxMsg::Info(L_DELETE_FOLDER.' '.$deldir.' - ' .L_NO_ENTRY);}
 }			
 // on liste les fichiers par repertoire et on affiche leur zone de televersement et la listes des traces disponibles.
 function getGpxDir() {
@@ -69,7 +72,7 @@ function getGpxDir() {
 			<p>'.$plxPlugin->getLang('L_CODE_TO_PASTE').'</p>
 			<textarea class="code'.$i.'"></textarea>
 			</div>
-			<div class="fullWidth" id="code'.$i.'"><object class="gpxmap"></object></div>';
+			<div class="fullWidth" id="code'.$i.'"></div>';
 		}		
 	}
 }
@@ -225,7 +228,10 @@ p:last-of-type.fullWidth.flex.gap1.space-around {
 <p class="fullWidth flex gap1 space-around"><label for="preview" ><?php $plxPlugin->lang('L_PREVIEW_GPX') ?></label><input type="checkbox" name="preview"/></p>
 <?php getGpxDir(); ?>
 </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.1/gpx.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+  <script src="<?php echo PLX_PLUGINS.$plugin.'/jsTpl.js'; ?>"></script>
   <script src="<?php echo PLX_PLUGINS.$plugin.'/script.js'; ?>"></script>
 
 </fieldset>
