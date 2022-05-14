@@ -34,11 +34,9 @@
     }
 	
 		public function OnActivate() {					
-			$gpxDir = glob(PLX_PLUGINS.__CLASS__.'/gpx/*');
-			$htaxces = 'Header add Access-Control-Allow-Origin "*"';
+			$gpxDir = glob(PLX_PLUGINS.__CLASS__.'/gpx/*');			
 			foreach($gpxDir as $gpxFolder) {
-				if (!file_exists($gpxFolder.'/.htaccess')) {
-					file_put_contents($gpxFolder.'/.htaccess', $htaxces);
+				if (!file_exists($gpxFolder.'/index.html')) {					
 					file_put_contents($gpxFolder.'/index.html', '');
 				}			
 			}	
@@ -51,13 +49,13 @@
 			<script>
 				const defLang			="'.$this->default_lang .'";
 				const file_exists 		="'. $this->getLang('L_FILE_EXISTS') .'";
-				const fileExt_required 	="'. $this->getLang('L_GPX_REQUIRED') .'";
+				const fileExt_required   	="'. $this->getLang('L_GPX_REQUIRED') .'";
 				const fileError 		="'. $this->getLang('L_FILE_ERROR') .'";
-				const fileUploadError	="'. $this->getLang('L_FILE_UPLOAD_ERROR') .'";
+				const fileUploadError	        ="'. $this->getLang('L_FILE_UPLOAD_ERROR') .'";
 				const loading 			="'. $this->getLang('L_LOADING') .'"; 
 				const distance			="'. $this->getLang('L_DISTANCE') .'"; 						 
 				const duration 			="'. $this->getLang('L_DURATION') .'"; 						 
-				const time 				="'. $this->getLang('L_TIME') .'"; 						 
+				const time 			="'. $this->getLang('L_TIME') .'"; 						 
 				const avghr 			="'. $this->getLang('L_AVERAGE_HEART_RATE') .'"; 				 
 				const cadence 			="'. $this->getLang('L_CADENCE') .'"; 						 
 				const postilt 			="'. $this->getLang('L_POSITIVE_TILT') .'"; 					 
