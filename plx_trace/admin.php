@@ -22,9 +22,8 @@ $plxAdmin->checkProfil(PROFIL_ADMIN);
     }
 // efface un sous repertoire de gpx
 function deleteDir($deldir) {
-	
 	// on verifie que l'on est bien dans un sous repertoire de gpx
-	if(substr(0,strlen(PLX_PLUGINS.'plx_trace/gpx/'))== PLX_PLUGINS.'plx_trace/gpx/') {
+	if(dirname($deldir,1).'/' == PLX_PLUGINS.'plx_trace/gpx/') {
 		if (file_exists($deldir)) {
 			$dir = opendir($deldir);
 			while (false !== ($file = readdir($dir))) {
@@ -37,14 +36,15 @@ function deleteDir($deldir) {
 					}
 				}
 			}
-			@closedir($deldir);
+			closedir($dir);
 			if(rmdir($deldir)) {
 				return plxMsg::Info(L_DELETE_SUCCESSFUL);
 			}
 		}
 	}
 	else {return plxMsg::Info(L_DELETE_FOLDER.' '.$deldir.' - ' .L_NO_ENTRY);}
-}			
+}
+
 // on liste les fichiers par repertoire et on affiche leur zone de televersement et la listes des traces disponibles.
 function getGpxDir() {
 	global $plxPlugin;
