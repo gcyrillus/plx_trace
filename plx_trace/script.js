@@ -35,7 +35,7 @@ function ajax_file_upload(file_obj,ipt,section,dir,upAction) {
         let form_data = new FormData();                  
         form_data.append('file', file_obj);
         let xhttp = new XMLHttpRequest();
-        let upUrl= '../../plugins/plx_trace/ajax.php?dir='+dir+'&do='+upAction;
+        let upUrl= '../../core/admin/plugin.php?p=plx_trace&dir='+dir+'&do='+upAction;
         xhttp.open("POST", upUrl , true);
         xhttp.onload = function(event) {
             output = document.querySelector(classInfo);
