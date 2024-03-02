@@ -2,7 +2,7 @@
   class plx_trace extends plxPlugin {	 
 
 	const HOOKS = array(
-			'ThemeEndBody',
+			'ThemeEndHead',
         );  
 		
     public function __construct($default_lang) {
@@ -43,26 +43,26 @@
 		}
 		
 		#recherche de la balise <plx_trace/> et injecte le script
-		public function ThemeEndBody() {
+		public function ThemeEndHead() {
 		$jsTpl = '			<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.1/gpx.js"></script>
 			<script>
 				const defLang			="'.$this->default_lang .'";
 				const file_exists 		="'. $this->getLang('L_FILE_EXISTS') .'";
-				const fileExt_required   	="'. $this->getLang('L_GPX_REQUIRED') .'";
+				const fileExt_required  ="'. $this->getLang('L_GPX_REQUIRED') .'";
 				const fileError 		="'. $this->getLang('L_FILE_ERROR') .'";
-				const fileUploadError	        ="'. $this->getLang('L_FILE_UPLOAD_ERROR') .'";
+				const fileUploadError	="'. $this->getLang('L_FILE_UPLOAD_ERROR') .'";
 				const loading 			="'. $this->getLang('L_LOADING') .'"; 
 				const distance			="'. $this->getLang('L_DISTANCE') .'"; 						 
 				const duration 			="'. $this->getLang('L_DURATION') .'"; 						 
-				const time 			="'. $this->getLang('L_TIME') .'"; 						 
+				const time 				="'. $this->getLang('L_TIME') .'"; 						 
 				const avghr 			="'. $this->getLang('L_AVERAGE_HEART_RATE') .'"; 				 
 				const cadence 			="'. $this->getLang('L_CADENCE') .'"; 						 
 				const postilt 			="'. $this->getLang('L_POSITIVE_TILT') .'"; 					 
 				const negtilt 			="'. $this->getLang('L_NEGATIVE_TILT') .'"; 					 
 				const avgtilt 			="'. $this->getLang('L_AVERAGE_TILT') .'"; 					 
 			</script>
-			<script src="plugins/'.__CLASS__.'/jsTpl.js"></script>
+			<script src="plugins/'.__CLASS__.'/jsTpl.js" defer></script>
 			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
 			<style>	.gpx {border: 2px rgba(125, 125, 125) solid;border-radius: 5px;box-shadow: 0 0 3px 3px rgba(200, 200, 200);max-width: 100%;margin: auto;}
 					.gpx header {padding: 0.5em;}
@@ -116,14 +116,8 @@
 				$localPrefX = '../../';
 			}
 			$prefX = '<script>const prefX ="'.$localPrefX.'";</script>';
-			echo '<?php ';?>			
-			$toFind ="data-gpxFile";
-			$found = strpos($output, $toFind);
-					 ?>
-			<?php
-			if( '<?php echo $found ?>' > '0') {
+
 				echo $prefX.PHP_EOL.$jsTpl;
-			}
+
 		}
 }
-?>
