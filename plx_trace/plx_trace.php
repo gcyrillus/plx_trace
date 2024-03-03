@@ -4,6 +4,8 @@
 	const HOOKS = array(
 			'ThemeEndHead',
         );  
+        const BEGIN_CODE = '<?php' . PHP_EOL;
+        const END_CODE = PHP_EOL . '?>';
 		
     public function __construct($default_lang) {
 	
@@ -41,7 +43,8 @@
 				}			
 			}	
 		}
-		
+
+
 		#recherche de la balise <plx_trace/> et injecte le script
 		public function ThemeEndHead() {
 		$jsTpl = '			<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
